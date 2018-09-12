@@ -1,13 +1,13 @@
 import java.awt.Dimension;
-
 import javax.swing.*;
 
 public class LeagueInvaders {
 
 	public JFrame window;
 	public GamePanel panel;
-	final int windowSizeX = 500;
-	final int windowSizeY = 800;
+	public final static int windowSizeX = 500;
+	public final static int windowSizeY = 800;
+	public final static String VERSION = "v1.0.0";
 
 	public LeagueInvaders() {
 		window = new JFrame();
