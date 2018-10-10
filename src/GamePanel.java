@@ -23,6 +23,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage rocketImg;
 	public static BufferedImage bulletImg;
 	public static BufferedImage spaceImg;
+	public static BufferedImage firebitImg;
+	public static BufferedImage superBulletImg;
 
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
@@ -41,6 +43,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			rocketImg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
 			bulletImg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
 			spaceImg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
+			firebitImg = ImageIO.read(this.getClass().getResourceAsStream("firebit.png"));
+			superBulletImg = ImageIO.read(this.getClass().getResourceAsStream("superBullet.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,25 +103,45 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			break;
 		case 37:
-			ship.x -= ship.speed;
+			if (ship.x > 0) {
+				ship.x -= ship.speed;
+			}
 			break;
 		case 38:
-			ship.y -= ship.speed;
+			if (ship.y > 0) {
+				ship.y -= ship.speed;
+			}
 			break;
 		case 39:
-			ship.x += ship.speed;
+			if (ship.x < LeagueInvaders.windowSizeX-ship.width) {
+				ship.x += ship.speed;
+			}
 			break;
 		case 40:
-			ship.y += ship.speed;
+			if (ship.y < LeagueInvaders.windowSizeY-ship.height) {
+				ship.y += ship.speed;
+			}
 			break;
 		case (int) ' ':
 			if (currentState == MENU_STATE) {
-				JOptionPane.showMessageDialog(null, "--CONTROLS--\n Press space to fire.\n Press enter to surrender." + 
-			"\n --NOTES--\n It takes 0.8s to reload.");
-			} else if (currentState == GAME_STATE) {
+				JOptionPane.showMessageDialog(null, "--CONTROLS--\n Press space to fire.\n Press K to super-fire (see SUPERFIRING.)\n Press enter to surrender." 
+						+ "\n --NOTES--\n It takes 0.8s to reload."
+						+ "\n --FUEL--\n When enemies are hit, they will respawn\n on their planet and continue advancing.\n They will also drop a star called a firebit.\n These will fuel your cannon with 2 new shots\n when collected."
+						+ "\n --SUPERFIRING--\n Superfiring takes twice the energy but\n destroys every enemy existing.");
+			} else if (currentState == GAME_STATE && ship.fuel > 0) {
 				if ((int) System.currentTimeMillis()-manager.reloadTime > manager.lastFireTime) {
 					manager.addProjectile(new Projectile(ship.x + (ship.width / 2) - 5, ship.y, 10, 10));
 					manager.lastFireTime = (int) System.currentTimeMillis();
+					ship.fuel--;
+				}
+			}
+			break;
+		case (int) 'K':
+			if (currentState == GAME_STATE && ship.fuel >= 2) {
+				if ((int) System.currentTimeMillis()-manager.reloadTime > manager.lastFireTime) {
+					manager.addProjectile(new SuperProjectile(ship.x + (ship.width / 2) - 5, ship.y, 10, 10, manager));
+					manager.lastFireTime = (int) System.currentTimeMillis();
+					ship.fuel-=2;
 				}
 			}
 			break;

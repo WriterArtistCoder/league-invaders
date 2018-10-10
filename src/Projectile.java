@@ -3,6 +3,7 @@ import java.awt.Graphics;
 public class Projectile extends GameObject {
 	
 	public int speed = 10;
+	public boolean isSuper = false;
 
 	public Projectile(int xa, int ya, int widtha, int heighta) {
 		super(xa, ya, widtha, heighta);
@@ -13,7 +14,7 @@ public class Projectile extends GameObject {
 		super.update();
 		y -= speed;
 		
-		if (y < 0) {
+		if (y <= 0) {
 			isAlive = false;
 		}
 	}

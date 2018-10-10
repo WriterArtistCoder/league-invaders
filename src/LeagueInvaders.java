@@ -7,7 +7,7 @@ public class LeagueInvaders {
 	public GamePanel panel;
 	public final static int windowSizeX = 500;
 	public final static int windowSizeY = 800;
-	public final static String VERSION = "v1.0.0";
+	public final static String VERSION = "v1.1.0";
 
 	public LeagueInvaders() {
 		window = new JFrame();

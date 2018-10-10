@@ -16,8 +16,9 @@ public class Alien extends GameObject {
 		g.drawImage(GamePanel.alienImg, x, y, width, height, null);
 	}
 	
-	public void onHit() {
+	public void onHit(ObjectManager manager) {
 		isAlive = false;
+		manager.addFirebit(new Firebit(this));
 	}
 
 }
